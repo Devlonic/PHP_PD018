@@ -50,7 +50,7 @@
                 <th><img src='$image' alt='' width='50'></th>
                 <td>$name</td>
                 <td>$description</td>
-                <td><a class='btn btn-secondary' href='/categories/edit.php?id=$id'>Edit</a></td>
+                <td><a class='btn btn-secondary' href='/categories/edit.php?id=$id&name=$name&image=$image&description=$description'>Edit</a></td>
                 <td><a onclick=\"return myConfirm('Are you sure?');\" class='btn btn-danger' href='/categories/remove.php?id=$id'>Remove</a></td>
             </tr>
             ";
