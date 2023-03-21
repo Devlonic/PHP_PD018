@@ -11,8 +11,7 @@
 </head>
 <body>
 
-<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/_header.php"); ?>
-
+<?php include_once($_SERVER["DOCUMENT_ROOT"]."/_header.php"); ?>
 
 <h1 class="text-center">Список категорій</h1>
 

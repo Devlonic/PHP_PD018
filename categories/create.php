@@ -17,7 +17,7 @@
 <h1 class="text-center">Додати категорій</h1>
 <div class="container">
     <div class="row">
-        <form method="post" class="offset-md-3 col-md-6">
+        <form method="post" action="create_sql.php" class="offset-md-3 col-md-6">
             <div class="mb-3">
                 <label for="name" class="form-label">Назва</label>
                 <input type="text" class="form-control" id="name" name="name">
