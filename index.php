@@ -17,6 +17,12 @@
 
 <?php include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php"); ?>
 
+<script>
+    function myConfirm(text) {
+        return confirm(text);
+    }
+</script>
+
 <div class="container">
     <a href="/categories/create.php" class="btn btn-success">Додати категорію</a>
     <table class="table">
@@ -25,6 +31,8 @@
             <th scope="col">Фото</th>
             <th scope="col">Назва</th>
             <th scope="col">Опис</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Remove</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +41,7 @@
         $sql = "SELECT * FROM tbl_categories";
         $command = $dbh->query($sql);
         foreach ($command as $row) {
+            $id = $row["id"];
             $image = $row["image"];
             $name = $row["name"];
             $description = $row["description"];
@@ -41,6 +50,8 @@
                 <th><img src='$image' alt='' width='50'></th>
                 <td>$name</td>
                 <td>$description</td>
+                <td><a class='btn btn-secondary' href='/categories/edit.php?id=$id'>Edit</a></td>
+                <td><a onclick=\"return myConfirm('Are you sure?');\" class='btn btn-danger' href='/categories/remove.php?id=$id'>Remove</a></td>
             </tr>
             ";
         }
