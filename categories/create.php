@@ -1,3 +1,27 @@
+<?php
+$name="";
+$image="";
+$description="";
+if($_SERVER["REQUEST_METHOD"]=="POST")
+{
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php");
+    //echo"<br/>";
+    //echo"<br/>";
+    //print_r($_POST);
+    $name=$_POST["name"];
+    $image=$_POST["image"];
+    $description=$_POST["description"];
+
+    $sql = "INSERT INTO tbl_categories (name, image, description) VALUES (?,?,?)";
+    $stmt= $dbh->prepare($sql);
+    $stmt->execute([$name, $image, $description]);
+
+    header("location: /");
+    exit();
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,18 +44,19 @@
         <form method="post" action="create_sql.php" class="offset-md-3 col-md-6">
             <div class="mb-3">
                 <label for="name" class="form-label">Назва</label>
-                <input type="text" class="form-control" id="name" name="name">
+                <input type="text" class="form-control" value="<?php echo $name; ?>" id="name" name="name">
             </div>
 
             <div class="mb-3">
                 <label for="image" class="form-label">Фото(Адрес)</label>
-                <input type="text" class="form-control" id="image" name="image">
+                <input type="text" class="form-control" value="<?php echo $image; ?>" id="image" name="image">
             </div>
 
             <div class="mb-3">
                 <label for="description">Опис</label>
-                <textarea class="form-control" placeholder="Leave a comment here" name="description"
-                          id="description"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here"
+                          name="description"
+                          id="description"><?php echo $description; ?></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Додати</button>

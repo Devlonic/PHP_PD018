@@ -11,17 +11,12 @@
 </head>
 <body>
 
-<?php include_once($_SERVER["DOCUMENT_ROOT"]."/_header.php"); ?>
+<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/_header.php"); ?>
+
 
 <h1 class="text-center">Список категорій</h1>
 
 <?php include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php"); ?>
-
-<script>
-    function myConfirm(text) {
-        return confirm(text);
-    }
-</script>
 
 <div class="container">
     <a href="/categories/create.php" class="btn btn-success">Додати категорію</a>
@@ -31,8 +26,7 @@
             <th scope="col">Фото</th>
             <th scope="col">Назва</th>
             <th scope="col">Опис</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Remove</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -41,8 +35,8 @@
         $sql = "SELECT * FROM tbl_categories";
         $command = $dbh->query($sql);
         foreach ($command as $row) {
-            $id = $row["id"];
             $image = $row["image"];
+            $id = $row["id"];
             $name = $row["name"];
             $description = $row["description"];
             echo "
@@ -50,8 +44,7 @@
                 <th><img src='$image' alt='' width='50'></th>
                 <td>$name</td>
                 <td>$description</td>
-                <td><a class='btn btn-secondary' href='/categories/edit.php?id=$id&name=$name&image=$image&description=$description'>Edit</a></td>
-                <td><a onclick=\"return myConfirm('Are you sure?');\" class='btn btn-danger' href='/categories/remove.php?id=$id'>Remove</a></td>
+                <td><a href='/categories/edit.php?id=$id' class='btn btn-danger'>Змінити</a></td>
             </tr>
             ";
         }

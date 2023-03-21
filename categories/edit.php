@@ -1,3 +1,38 @@
+<?php
+$name="";
+$image="";
+$description="";
+if($_SERVER["REQUEST_METHOD"]=="POST")
+{
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php");
+    $id=$_GET["id"];
+    $name=$_POST["name"];
+    $image=$_POST["image"];
+    $description=$_POST["description"];
+
+    $sql = "UPDATE `tbl_categories` SET `name` = ?, `image` = ?, `description` = ? WHERE `tbl_categories`.`id` = ?;";
+    $stmt= $dbh->prepare($sql);
+    $stmt->execute([$name, $image, $description, $id]);
+
+    header("location: /");
+    exit();
+}
+else {
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php");
+    $id=$_GET["id"];
+    $sql = "SELECT * FROM tbl_categories where id=".$id;
+    $command = $dbh->query($sql);
+    foreach($command as $row) {
+        $image = $row["image"];
+        $name = $row["name"];
+        $description = $row["description"];
+        break;
+    }
+
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,30 +48,29 @@
 
 <?php include_once($_SERVER["DOCUMENT_ROOT"] . "/_header.php"); ?>
 
-<h1 class="text-center">Edit category</h1>
+
+<h1 class="text-center">Зміна категорій</h1>
 <div class="container">
     <div class="row">
-        <form method="POST" action="edit_sql.php" class="offset-md-3 col-md-6">
-            <input type="hidden" name="id" id="id" value="<?php echo $_GET['id'] ?>">
-
+        <form method="post" class="offset-md-3 col-md-6">
             <div class="mb-3">
                 <label for="name" class="form-label">Назва</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?php echo $_GET['name'] ?>">
+                <input type="text" class="form-control" value="<?php echo $name; ?>" id="name" name="name">
             </div>
 
             <div class="mb-3">
                 <label for="image" class="form-label">Фото(Адрес)</label>
-                <input type="url" class="form-control" id="image" name="image" value="<?php echo $_GET['image'] ?>">
+                <input type="text" class="form-control" value="<?php echo $image; ?>" id="image" name="image">
             </div>
 
             <div class="mb-3">
                 <label for="description">Опис</label>
-                <textarea class="form-control" placeholder="Leave a comment here" name="description"
-                          id="description"><?php echo $_GET['description'] ?></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here"
+                          name="description"
+                          id="description"><?php echo $description; ?></textarea>
             </div>
 
-            <button type="submit" class="btn btn-dark">Submit editing</button>
-            <a class="btn btn-secondary" href="/">Cancel</a>
+            <button type="submit" class="btn btn-primary">Зберегти</button>
         </form>
     </div>
 
