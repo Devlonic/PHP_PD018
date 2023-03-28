@@ -2,17 +2,36 @@
 $name="";
 $image="";
 $description="";
+$imageFileName = "";
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
     include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php");
     $id=$_GET["id"];
+
+    //does the file exist on server in temp folder?
+
     $name=$_POST["name"];
-    $image=$_POST["image"];
     $description=$_POST["description"];
 
-    $sql = "UPDATE `tbl_categories` SET `name` = ?, `image` = ?, `description` = ? WHERE `tbl_categories`.`id` = ?;";
-    $stmt= $dbh->prepare($sql);
-    $stmt->execute([$name, $image, $description, $id]);
+    echo $_FILES['categoryImage']['error'];
+    if(is_uploaded_file($_FILES['categoryImage']['tmp_name'])) {
+        $imageFileName = 'files/images/'.$_FILES['categoryImage']['name'];
+        move_uploaded_file($_FILES['categoryImage']['tmp_name'], "./../".$imageFileName);
+
+        $image=$imageFileName;
+
+        $sql = "UPDATE `tbl_categories` SET `name` = ?, `image` = ?, `description` = ? WHERE `tbl_categories`.`id` = ?;";
+        $stmt= $dbh->prepare($sql);
+        $stmt->execute([$name, $image, $description, $id]);
+    } else {
+        $sql = "UPDATE `tbl_categories` SET `name` = ?, `description` = ? WHERE `tbl_categories`.`id` = ?;";
+        $stmt= $dbh->prepare($sql);
+        $stmt->execute([$name, $description, $id]);
+    }
+
+
+
+
 
     header("location: /");
     exit();
@@ -52,15 +71,15 @@ else {
 <h1 class="text-center">Зміна категорій</h1>
 <div class="container">
     <div class="row">
-        <form method="post" class="offset-md-3 col-md-6">
+        <form method="post" enctype='multipart/form-data' class="offset-md-3 col-md-6">
             <div class="mb-3">
                 <label for="name" class="form-label">Назва</label>
                 <input type="text" class="form-control" value="<?php echo $name; ?>" id="name" name="name">
             </div>
 
             <div class="mb-3">
-                <label for="image" class="form-label">Фото(Адрес)</label>
-                <input type="text" class="form-control" value="<?php echo $image; ?>" id="image" name="image">
+                <label for="image" class="form-label">Фото</label>
+                <input accept="image/*" class="form-control" type="file" name="categoryImage" id="image">
             </div>
 
             <div class="mb-3">
