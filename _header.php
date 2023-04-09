@@ -11,7 +11,13 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/products/list.php">Products</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/categories/create.php">Додати категорію</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products/create.php">Add product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled">Disabled</a>
